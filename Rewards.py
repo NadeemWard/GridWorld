@@ -7,6 +7,7 @@ class Reward:
         self.grid = grid
         self.actions = actions
         self.expected_rewards = np.zeros((len(grid.states),len(actions),len(grid.states)))
+        grid.reward_env = self
 
     def convert(self,action):
         '''
