@@ -6,6 +6,7 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 import Value_estimation as ve
+import sys
 
 
 def avg_diff_vs_learning_rate(initial_states, steps, learning_rates, episodes, state_values):
@@ -63,6 +64,47 @@ def plot_aads_for_methods(method_aads_dict, title, number_episodes):
 
 if __name__ =="__main__":
 
+    # example of running a TD method.
+    # Here we choose to study the small gridworld with sparse reward and a stochastic transition probability using
+    # and agent with a uniform policy.
+
+    initial_states = np.random.uniform(-2, 2, size=16)
+    episodes = np.load("episodes/small_Bernoulli_uniform_sparse_grid.npy")
+    state_values = np.load("state_values/small_Bernoulli_uniform_sparse_discount_of_0.2_state_value.npy")
+
+    print(episodes[0])
+    print("\n")
+    print(episodes[1])
+    print("\n")
+    print(initial_states)
+    print("\n")
+    print(state_values)
+
+    estimates, avg_abs_diffs = ve.n_step_td(initial_states, 10, episodes, state_values,
+                                            discount=0.2, learning_rate=0.001)
+    plt.plot(avg_abs_diffs[:1500])
+    plt.ylabel("Average absolute difference")
+    plt.xlabel("# of episodes")
+    plt.show()
+
+    vals, avg_abs_diffs = ve.monte_carlo(initial_states, episodes, state_values,
+                                   discount=0.2)
+
+    print(avg_abs_diffs[0])
+    print("\n")
+    print(avg_abs_diffs[1])
+    print("\n")
+    print(avg_abs_diffs[2])
+
+
+    plt.plot(avg_abs_diffs[:500])
+    plt.ylabel("Average absolute difference")
+    plt.xlabel("# of episodes")
+    plt.show()
+
+
+    exit(0)
+
     # Define the world
     actions = ["up", "down", "right", "left"]
     size = ["small", "big"]
@@ -79,6 +121,7 @@ if __name__ =="__main__":
     best_learning_rates = [0.001, 0.001, 0.1, 0.01, 0.001, 0.001, 1, 0.2]
     method_aads = {}
     index = 0
+
     for s in size:
         if s == "small":
             initial_states = np.random.uniform(-2, 2, size=16)

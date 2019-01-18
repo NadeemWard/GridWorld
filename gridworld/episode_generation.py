@@ -6,9 +6,25 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 import Value_estimation as ve
+import sys
 
 if __name__ =="__main__":
 
+
+    grid = Grid.GridWorld(4)
+    actions = ["up", "down", "right", "left"]
+    transition = tp(grid, actions)
+    transition.create_common_transition(("Bernoulli", 0.7))
+    grid.transition_probs = transition
+    policy = pd.DataFrame(data=0.25, index=transition.actions, columns=grid.states)
+    reward_env = Reward(grid, actions)
+    reward_env.common_reward("sparse")
+
+    agent = Agent(grid, actions, policy, reward_env, 1)
+    episodes = ve.sample_episode(10, agent, terminal_state=16, steps_per_episode= 20)
+
+    print(episodes)
+    exit(0)
 
     # Define the grid worlds
     actions = ["up", "down", "right", "left"]
@@ -74,7 +90,7 @@ if __name__ =="__main__":
         else:
             episodes = ve.sample_episode(2000, agent)
 
-        np.save("episodes/{0}".format(name), episodes)
+        np.save("terminal_episodes/{0}".format(name), episodes)
 
 
 

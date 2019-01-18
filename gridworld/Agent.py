@@ -1,4 +1,3 @@
-import Grid
 import numpy as np
 import sys
 
@@ -109,7 +108,7 @@ if __name__ =="__main__":
 
     height = 4  # square gridworld
     width = 4
-
+    import Grid
     grid = Grid.GridWorld(height, width)
     grid.print_grid()
 
