@@ -71,6 +71,30 @@ class Transitions_Probs:
                     else:
                         self.t_probs[s - 1][self.convert(a)][s - 1] += failure
 
+        if(common_type[0]== "Random"):
+
+            self.t_probs = np.zeros(
+                (len(self.states), len(self.actions), len(self.states)))  # This considers all entries to be 0
+
+            success = common_type[1]
+            failure = 1 - success
+            random_prob = failure/len(self.actions)
+
+            for s in self.states:
+
+                for a in self.actions:
+
+                    s_true = grid.get_next_state(s,a)
+
+                    self.t_probs[s - 1][self.convert(a)][s_true - 1] = success + random_prob
+
+
+                    for other_a in actions:
+
+                        if( other_a != a ):
+                            s_others = grid.get_next_state(s,other_a)
+                            self.t_probs[s - 1][self.convert(a)][s_others - 1] += random_prob
+
     def get(self,s,a,s_prime):
 
         '''
@@ -95,7 +119,7 @@ if __name__ =="__main__":
     grid.print_grid()
 
     x = Transitions_Probs(grid,actions)
-    x.create_common_transition("Deterministic") #("Bernoulli",0.7)) # "Deterministic"
+    x.create_common_transition(("Random",0.7)) # "Deterministic"
 
     # print(x.t_probs)
     # print(x.get(6,"up",7))
@@ -107,5 +131,16 @@ if __name__ =="__main__":
             print("-------------------")
             print(s)
             print(a)
-            print(grid.move(s,a))
+            result = grid.move(s,a)
+            print(result)
+            if grid.get_next_state(s,a) != result: print("HERE")
+            #print(grid.move(s,a))
     #print(grid.move(6,"right"))
+
+    ############################################
+
+            # if(s_others != s_true):
+            #
+            #     self.t_probs[s-1][self.convert(a)][s_others -1] += random_prob
+            # else:
+            #     self.t_probs[s - 1][self.convert(a)][s_others - 1] += random_prob

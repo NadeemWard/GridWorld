@@ -115,6 +115,8 @@ if __name__ =="__main__":
     actions = ["up", "down", "right", "left"]
 
     import Transitions
+
+
     x = Transitions.Transitions_Probs(grid, actions)
     x.create_common_transition("Deterministic")  # ("Bernoulli",0.7)) # "Deterministic"
 
