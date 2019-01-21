@@ -11,7 +11,7 @@ setuptools.setup(
     description="A simple gridworld environment for reinforcement learning testing",
     long_description=long_description,
     url="https://github.com/NadeemWard/GridWorld",
-    install_requires=['numpy','math','sys'],
+    install_requires=['numpy'],
     packages=['gridworld'],
     license="MIT",
 )
