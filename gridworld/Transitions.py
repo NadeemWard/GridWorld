@@ -51,7 +51,7 @@ class Transitions_Probs:
 
                     self.t_probs[s-1][self.convert(a)][s_true-1] = 1 # give the true state a probability of 1.
 
-        if(common_type[0] == "Bernoulli"):
+        elif(common_type[0] == "Bernoulli"):
 
             self.t_probs = np.zeros(
                 (len(self.states), len(self.actions), len(self.states)))  # This considers all entries to be 0
@@ -63,7 +63,7 @@ class Transitions_Probs:
 
                 for a in self.actions:
 
-                    s_true = grid.get_next_state(s,a) # the true state youll land in if you are in state s and follow action a
+                    s_true = self.grid.get_next_state(s,a) # the true state youll land in if you are in state s and follow action a
 
                     self.t_probs[s-1][self.convert(a)][s_true-1] = sucess # give the true state the probability of success.
                     if(s_true != s):
@@ -71,7 +71,7 @@ class Transitions_Probs:
                     else:
                         self.t_probs[s - 1][self.convert(a)][s - 1] += failure
 
-        if(common_type[0]== "Random"):
+        elif(common_type[0]== "Random"):
 
             self.t_probs = np.zeros(
                 (len(self.states), len(self.actions), len(self.states)))  # This considers all entries to be 0
@@ -84,15 +84,14 @@ class Transitions_Probs:
 
                 for a in self.actions:
 
-                    s_true = grid.get_next_state(s,a)
+                    s_true = self.grid.get_next_state(s,a)
 
                     self.t_probs[s - 1][self.convert(a)][s_true - 1] = success + random_prob
 
-
-                    for other_a in actions:
+                    for other_a in self.actions:
 
                         if( other_a != a ):
-                            s_others = grid.get_next_state(s,other_a)
+                            s_others = self.grid.get_next_state(s,other_a)
                             self.t_probs[s - 1][self.convert(a)][s_others - 1] += random_prob
 
     def get(self,s,a,s_prime):
@@ -112,8 +111,8 @@ class Transitions_Probs:
 if __name__ =="__main__":
 
     actions = ["up", "down", "right", "left"]
-    height = 4 # square gridworld
-    width = 4
+    height = 50 # square gridworld
+    width = 50
     import Grid
     grid = Grid.GridWorld(height, width)
     grid.print_grid()
@@ -126,14 +125,14 @@ if __name__ =="__main__":
     # print(x.get(6,"right",7))
     # print(x.get(6,"right",6))
 
-    for s in grid.states:
-        for a in actions:
-            print("-------------------")
-            print(s)
-            print(a)
-            result = grid.move(s,a)
-            print(result)
-            if grid.get_next_state(s,a) != result: print("HERE")
+    # for s in grid.states:
+    #     for a in actions:
+    #         print("-------------------")
+    #         print(s)
+    #         print(a)
+    #         result = grid.move(s,a)
+    #         print(result)
+    #         if grid.get_next_state(s,a) != result: print("HERE")
             #print(grid.move(s,a))
     #print(grid.move(6,"right"))
 

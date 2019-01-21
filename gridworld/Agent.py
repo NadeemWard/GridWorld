@@ -118,25 +118,29 @@ if __name__ =="__main__":
 
 
     x = Transitions.Transitions_Probs(grid, actions)
-    x.create_common_transition("Deterministic")  # ("Bernoulli",0.7)) # "Deterministic"
+    x.create_common_transition("Deterministic")   #(("Bernoulli",0.7)) #
 
     import Rewards
     sparse_reward = Rewards.Reward(grid, actions)
-    sparse_reward.common_reward("sparse")
+
+    dict = {1: 2, 3: 4}
+    sparse_reward.common_reward(dict)
+
 
     policy = np.ones((len(grid.states), len(actions) )) * 0.25 # uniform policy
 
-    # go right 80% of time and down 20%
-    policy = np.zeros((len(grid.states), len(actions)))
-    for state in policy:
-        #print(i)
-        state[actions.index("right")] = 0.8
-        state[actions.index("down")] = 0.2
+    # # go right 80% of time and down 20%
+    # policy = np.zeros((len(grid.states), len(actions)))
+    # for state in policy:
+    #     #print(i)
+    #     state[actions.index("right")] = 0.8
+    #     state[actions.index("down")] = 0.2
 
     print(policy)
 
     agent = Agent(grid, actions, policy)
     print(agent.sample_episode(10)) # get 10 sample episodes
+
 
     exit(0)
 

@@ -20,13 +20,21 @@ class Reward:
 
     def common_reward(self,common_type):
 
+        if(isinstance(common_type,dict)):
+
+            for state, reward in common_type.items():
+
+                for s in self.grid.states:
+                    for a in self.actions:
+                        self.expected_rewards[s - 1][self.convert(a)][state - 1] = reward
+
         if(common_type == "sparse"):
 
             for s in self.grid.states:
                 for a in self.actions:
                     self.expected_rewards[s-1][self.convert(a)][self.grid.terminal_state-1] = 1
 
-        if(common_type =="dense"):
+        elif(common_type =="dense"):
             # all states that are multiples of 2 are given a reward of 1
             # to give half of the states a positive reward, therefore dense
 
