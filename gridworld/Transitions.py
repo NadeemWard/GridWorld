@@ -111,8 +111,8 @@ class Transitions_Probs:
 if __name__ =="__main__":
 
     actions = ["up", "down", "right", "left"]
-    height = 50 # square gridworld
-    width = 50
+    height = 5 # square gridworld
+    width = 5
     import Grid
     grid = Grid.GridWorld(height, width)
     grid.print_grid()
@@ -120,7 +120,8 @@ if __name__ =="__main__":
     x = Transitions_Probs(grid,actions)
     x.create_common_transition(("Random",0.7)) # "Deterministic"
 
-    # print(x.t_probs)
+    print(x.t_probs)
+    print(x.t_probs[0][0])
     # print(x.get(6,"up",7))
     # print(x.get(6,"right",7))
     # print(x.get(6,"right",6))
