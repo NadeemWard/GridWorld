@@ -34,7 +34,7 @@ class Transitions_Probs:
 
         for s in terminal_states:
 
-            for a in actions:
+            for a in self.actions:
 
                 for s_prime in self.grid.states:
 
@@ -144,7 +144,7 @@ if __name__ =="__main__":
     print("HERERERERE")
     print(x.t_probs)
 
-    for i in range(5):
+    for i in range(4):
         print(x.t_probs[0][i])
         print(x.t_probs[4][i])
     # print(x.get(6,"up",7))
