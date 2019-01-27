@@ -30,6 +30,21 @@ class Transitions_Probs:
 
         return self.actions.index(action)
 
+    def add_terminal_states(self,terminal_states):
+
+        for s in terminal_states:
+
+            for a in actions:
+
+                for s_prime in self.grid.states:
+
+                    if (s_prime == s):
+                        self.t_probs[s-1][self.convert(a)][s_prime - 1] = 1
+                    else:
+                        self.t_probs[s - 1][self.convert(a)][s_prime -1] = 0
+
+
+
     def create_common_transition(self,common_type):
 
         '''
@@ -122,6 +137,16 @@ if __name__ =="__main__":
 
     print(x.t_probs)
     print(x.t_probs[0][0])
+
+    x.add_terminal_states([1,5])
+
+    print("\n")
+    print("HERERERERE")
+    print(x.t_probs)
+
+    for i in range(5):
+        print(x.t_probs[0][i])
+        print(x.t_probs[4][i])
     # print(x.get(6,"up",7))
     # print(x.get(6,"right",7))
     # print(x.get(6,"right",6))
