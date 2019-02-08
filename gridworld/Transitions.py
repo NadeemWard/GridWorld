@@ -31,6 +31,15 @@ class Transitions_Probs:
         return self.actions.index(action)
 
     def add_terminal_states(self,terminal_states):
+        '''
+        This function adds the specified terminal states by making them absorbing states.
+        i.e. P(s'|s,a) = 0 if s is terminal at s' != s for all actions a.
+            P(s'|s,a) = 1 if s' = s and it is a terminal states. For all actions a.
+        Think of it as a markov chain where this state has one outward arrow that loops back to itself with
+        proba 1.
+        :param terminal_states: the state to be made terminal
+        :return: nothing, just updates the transition probabilities.
+        '''
 
         for s in terminal_states:
 
