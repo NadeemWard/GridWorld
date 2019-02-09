@@ -41,7 +41,7 @@ def iterative_bellman_equation(grid, actions, policy, discount=1.0, epsilon=10 *
 
         if (delta < epsilon): return state_values
 
-def get_return(episode, discount=1.0):
+def get_return(episode, discount= 1.0):
     '''
     Function to return the complete return for Monte Carlo backup
     :param episode: the episode to get the return from
@@ -58,7 +58,7 @@ def get_return(episode, discount=1.0):
 
     return sum
 
-def monte_carlo(initial_estimates, episodes, discount =1.0):
+def monte_carlo(initial_estimates, episodes, discount = 1.0):
     '''
     Monte Carlo state value estimation
     :param initial_estimates: the initial state value estimates
@@ -203,6 +203,55 @@ def avg_abs_diff(state_values, estimates):
 
 if __name__ == "__main__":
 
+
+    from Grid import GridWorld
+    from Transitions import Transitions_Probs
+    from Rewards import Reward
+    from Agent import Agent
+    #import numpy as np
+
+    # Define the gridworld
+    height = 5
+    width = 5
+    terminal_states = [1, 5]
+
+    grid = GridWorld(height, width)
+    grid.print_grid()  # print function to show your grid
+
+    # Define the environment dynamics
+    actions = ["up", "down", "right", "left"]
+
+    tp = Transitions_Probs(grid, actions)
+    tp.create_common_transition("Deterministic")  # There are 3 choices for common transition probabilities ("Bernoulli",0.7)) # "Deterministic"
+    tp.add_terminal_states(terminal_states)
+
+    defined_reward = {1: 1, 5: 10}  # Here, at state 1 I have a reward of 1 and at state 4 I have a reward of 10.
+    reward_env = Reward(grid, actions)
+    reward_env.common_reward(defined_reward)
+    discount = 0.9
+
+    policy = np.ones((len(grid.states), len(actions))) * 0.25  # uniform policy
+    agent = Agent(grid, actions, policy)
+    #agent.start_state = 25
+
+    episodes = agent.sample_trajectory(start_state=25,horizon=100 ) #, terminal_states=terminal_states)  # generate the episodes
+    print(episodes)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    exit(0)
+
     height = 4  # square gridworld
     width = 4
 
@@ -227,7 +276,7 @@ if __name__ == "__main__":
     state_values = iterative_bellman_equation(grid, actions, policy, discount=discount) # approximate the true state values
 
     from Agent import Agent as agent
-    episodes = agent(grid,actions,policy).sample_episode(1000,terminal_state= 16) # generate the episodes
+    episodes = agent(grid,actions,policy).sample_episode(1000,terminal_state = 16) # generate the episodes
 
     initial_states = np.zeros(len(grid.states)) # initial estimates should be an numpy array
 

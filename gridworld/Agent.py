@@ -104,6 +104,33 @@ class Agent:
 
         return episodes
 
+
+    def sample_trajectory(self,start_state = None, horizon = sys.maxsize, terminal_states = None):
+
+        if start_state != None:
+            self.current_state = start_state
+
+        if not (isinstance(terminal_states, list) ):
+            terminal_states = [] #create empty list
+
+        trajectory = []
+        steps = 0
+        while(self.current_state not in terminal_states and steps < horizon):
+
+            s = self.current_state
+            action = self.next_action()
+            s_prime = self.gridworld.move(self.current_state,action)
+            r = self.gridworld.reward_env.get_reward(s, s_prime, action)
+
+            self.current_state = s_prime
+
+            trajectory.extend([s,action[0],r])
+            steps += 1
+
+        trajectory.append(self.current_state)
+        return trajectory
+
+
 if __name__ =="__main__":
 
     height = 4  # square gridworld
@@ -123,8 +150,8 @@ if __name__ =="__main__":
     import Rewards
     sparse_reward = Rewards.Reward(grid, actions)
 
-    dict = {1: 2, 3: 4}
-    sparse_reward.common_reward(dict)
+    reward_dict = {16: 1}
+    sparse_reward.common_reward(reward_dict)
 
 
     policy = np.ones((len(grid.states), len(actions) )) * 0.25 # uniform policy
@@ -136,10 +163,15 @@ if __name__ =="__main__":
     #     state[actions.index("right")] = 0.8
     #     state[actions.index("down")] = 0.2
 
-    print(policy)
+    #print(policy)
 
     agent = Agent(grid, actions, policy)
-    print(agent.sample_episode(10)) # get 10 sample episodes
+    agent.start_state = 5
+
+    t = agent.sample_trajectory(start_state=5,horizon=100, terminal_states=[16])
+    #print(t)
+    #print((len(t)-1) / 3)
+    print(agent.sample_episode(1,terminal_state=16)) # get 10 sample episodes
 
 
     exit(0)
