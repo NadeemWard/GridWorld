@@ -147,34 +147,4 @@ if __name__ =="__main__":
     print(x.t_probs)
     print(x.t_probs[0][0])
 
-    x.add_terminal_states([1,5])
-
-    print("\n")
-    print("HERERERERE")
-    print(x.t_probs)
-
-    for i in range(4):
-        print(x.t_probs[0][i])
-        print(x.t_probs[4][i])
-    # print(x.get(6,"up",7))
-    # print(x.get(6,"right",7))
-    # print(x.get(6,"right",6))
-
-    # for s in grid.states:
-    #     for a in actions:
-    #         print("-------------------")
-    #         print(s)
-    #         print(a)
-    #         result = grid.move(s,a)
-    #         print(result)
-    #         if grid.get_next_state(s,a) != result: print("HERE")
-            #print(grid.move(s,a))
-    #print(grid.move(6,"right"))
-
-    ############################################
-
-            # if(s_others != s_true):
-            #
-            #     self.t_probs[s-1][self.convert(a)][s_others -1] += random_prob
-            # else:
-            #     self.t_probs[s - 1][self.convert(a)][s_others - 1] += random_prob
+    grid.add_terminal_states([1,5])

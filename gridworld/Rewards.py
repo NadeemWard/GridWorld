@@ -6,7 +6,8 @@ class Reward:
 
         self.grid = grid
         self.actions = actions
-        self.expected_rewards = np.zeros((len(grid.states),len(actions),len(grid.states)))
+        self.expected_rewards = np.zeros((len(grid.states),len(actions),len(grid.states))) # which represents reward starting at state s,
+                                                                                           # taking action a and landing in state s_t+1
         grid.reward_env = self
 
     def convert(self,action):
@@ -44,8 +45,6 @@ class Reward:
                         if s_prime % 2 == 0:
                             self.expected_rewards[s - 1][self.convert(a)][s_prime - 1] = 1
 
-
-
     def get_reward(self,s,s_prime,a):
         '''
         Assume the rewards are deterministic, just return the expected value. Not a sample from a distr
@@ -56,3 +55,11 @@ class Reward:
         '''
 
         return self.expected_rewards[s-1][self.convert(a)][s_prime-1]
+
+    def add_terminal_states(self,states):
+
+        # Terminal state means that the reward is 0 for all action starting from that state R(s_terminal , a, s) = 0
+        for state in states:
+            for s in self.grid.states:
+                for a in self.actions:
+                    self.expected_rewards[state - 1][ self.convert(a) ][s - 1] = 0

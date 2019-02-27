@@ -134,6 +134,10 @@ class GridWorld:
         choice = np.random.choice(self.states, 1, p=next_state_probs) #returns a array of 1 element
         return choice[0]
 
+    def add_terminal_states(self,states):
+
+        self.transition_probs.add_terminal_states(states)
+        self.reward_env.add_terminal_states(states)
 
 if __name__ =="__main__":
 
